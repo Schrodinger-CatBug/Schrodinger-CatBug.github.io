@@ -5,6 +5,6 @@
   "description": "daily-meal 的 GitHub Pages 菜谱站点（Schrodinger-CatBug.github.io）",
   "scripts": {
     "dev": "echo \"site dev: 待实现\"",
-    "build": "echo \"site build: 待实现\""
+    "build": "node -e \"require('fs').accessSync('index.html'); console.log('site build: static page ready')\""
   }
 }
