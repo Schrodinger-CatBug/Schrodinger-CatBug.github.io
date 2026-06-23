@@ -1,0 +1,10 @@
+{
+  "name": "@salary-counter/site",
+  "private": true,
+  "version": "0.0.0",
+  "description": "GitHub Pages 站点（Schrodinger-CatBug.github.io）",
+  "scripts": {
+    "dev": "echo \"site dev: 待实现\"",
+    "build": "echo \"site build: 待实现\""
+  }
+}
