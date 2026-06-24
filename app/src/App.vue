@@ -25,24 +25,20 @@ const navItems = [
 ];
 
 function scrollToSection(target, shouldUpdateHash = true) {
-  const featureTargets = new Set(["shopping", "inventory", "health"]);
-  const scrollTarget = featureTargets.has(target) ? "features" : target;
-  const element = document.getElementById(scrollTarget);
+  const element = document.getElementById(target);
 
   if (!element) {
     return;
   }
 
   const navOffset = 280;
-  let documentTop = 0;
-  let currentElement = element;
+  const top = Math.max(element.getBoundingClientRect().top + window.scrollY - navOffset, 0);
 
-  while (currentElement) {
-    documentTop += currentElement.offsetTop;
-    currentElement = currentElement.offsetParent;
-  }
-
-  window.scrollTo(0, Math.max(documentTop - navOffset, 0));
+  window.scrollTo({
+    top,
+    left: 0,
+    behavior: "auto",
+  });
   activeTarget.value = target;
 
   if (shouldUpdateHash) {
@@ -152,7 +148,7 @@ async function handleSubmit() {
       </p>
     </section>
 
-    <section id="features" class="feature-grid section-anchor" aria-label="每日菜谱能力">
+    <section class="feature-grid" aria-label="每日菜谱能力">
       <article id="shopping" class="feature-card section-anchor">
         <h2>今日采购提醒</h2>
         <p>根据菜谱和库存判断是否需要采购，并输出食材名称、数量和用途。</p>
