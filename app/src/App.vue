@@ -1,5 +1,5 @@
 <script setup>
-import { computed, reactive, ref } from "vue";
+import { computed, nextTick, onMounted, reactive, ref } from "vue";
 import { buildDailyMealAgentPayload, createCursorAgent } from "./cursorAgent";
 
 const form = reactive({
@@ -16,12 +16,40 @@ const result = ref(null);
 const errorMessage = ref("");
 
 const navItems = [
-  { href: "#shopping", label: "今日采购提醒" },
-  { href: "#inventory", label: "食材库存管理" },
-  { href: "#health", label: "健康食谱调整" },
-  { href: "#create-agent", label: "创建入口" },
-  { href: "#payload-preview", label: "请求预览" },
+  { target: "shopping", label: "今日采购提醒" },
+  { target: "inventory", label: "食材库存管理" },
+  { target: "health", label: "健康食谱调整" },
+  { target: "create-agent", label: "创建入口" },
+  { target: "payload-preview", label: "请求预览" },
 ];
+
+function scrollToSection(target, shouldUpdateHash = true) {
+  const element = document.getElementById(target);
+
+  if (!element) {
+    return;
+  }
+
+  const navOffset = 190;
+  const top = Math.max(element.getBoundingClientRect().top + window.scrollY - navOffset, 0);
+
+  window.scrollTo({
+    top,
+    behavior: "smooth",
+  });
+
+  if (shouldUpdateHash) {
+    window.history.pushState(null, "", `#${target}`);
+  }
+}
+
+onMounted(() => {
+  const target = window.location.hash.slice(1);
+
+  if (target) {
+    nextTick(() => scrollToSection(target, false));
+  }
+});
 
 const bmi = computed(() => {
   const height = Number(form.heightCm);
@@ -91,7 +119,12 @@ async function handleSubmit() {
 <template>
   <main>
     <nav class="site-nav" aria-label="页面子项导航">
-      <a v-for="item in navItems" :key="item.href" :href="item.href">
+      <a
+        v-for="item in navItems"
+        :key="item.target"
+        :href="`#${item.target}`"
+        @click.prevent="scrollToSection(item.target)"
+      >
         {{ item.label }}
       </a>
     </nav>
