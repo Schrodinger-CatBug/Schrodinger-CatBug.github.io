@@ -1,5 +1,5 @@
 <script setup>
-import { computed, nextTick, onMounted, reactive, ref } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 import { buildDailyMealAgentPayload, createCursorAgent } from "./cursorAgent";
 
 const form = reactive({
@@ -14,7 +14,7 @@ const form = reactive({
 const isSubmitting = ref(false);
 const result = ref(null);
 const errorMessage = ref("");
-const activeTarget = ref("");
+const activeTarget = ref("shopping");
 
 const navItems = [
   { target: "shopping", label: "今日采购提醒" },
@@ -24,21 +24,7 @@ const navItems = [
   { target: "payload-preview", label: "请求预览" },
 ];
 
-function scrollToSection(target, shouldUpdateHash = true) {
-  const element = document.getElementById(target);
-
-  if (!element) {
-    return;
-  }
-
-  const navOffset = 420;
-  const top = Math.max(element.getBoundingClientRect().top + window.scrollY - navOffset, 0);
-
-  window.scrollTo({
-    top,
-    left: 0,
-    behavior: "auto",
-  });
+function showSection(target, shouldUpdateHash = true) {
   activeTarget.value = target;
 
   if (shouldUpdateHash) {
@@ -48,15 +34,10 @@ function scrollToSection(target, shouldUpdateHash = true) {
 
 onMounted(() => {
   const target = window.location.hash.slice(1);
+  const hasTarget = navItems.some((item) => item.target === target);
 
-  if (target) {
-    activeTarget.value = target;
-    nextTick(() => {
-      requestAnimationFrame(() => {
-        scrollToSection(target, false);
-      });
-      setTimeout(() => scrollToSection(target, false), 150);
-    });
+  if (hasTarget) {
+    showSection(target, false);
   }
 });
 
@@ -133,7 +114,7 @@ async function handleSubmit() {
         :key="item.target"
         type="button"
         :class="{ active: activeTarget === item.target }"
-        @click="scrollToSection(item.target)"
+        @click="showSection(item.target)"
       >
         {{ item.label }}
       </button>
@@ -148,23 +129,26 @@ async function handleSubmit() {
       </p>
     </section>
 
-    <section class="feature-grid" aria-label="每日菜谱能力">
-      <article id="shopping" class="feature-card section-anchor">
+    <section class="tab-panel" aria-live="polite">
+      <article v-if="activeTarget === 'shopping'" id="shopping" class="feature-card">
         <h2>今日采购提醒</h2>
         <p>根据菜谱和库存判断是否需要采购，并输出食材名称、数量和用途。</p>
       </article>
-      <article id="inventory" class="feature-card section-anchor">
+      <article v-else-if="activeTarget === 'inventory'" id="inventory" class="feature-card">
         <h2>食材库存管理</h2>
         <p>记录剩余食材数量、可用状态和存放位置，减少重复购买和浪费。</p>
       </article>
-      <article id="health" class="feature-card section-anchor">
+      <article v-else-if="activeTarget === 'health'" id="health" class="feature-card">
         <h2>健康食谱调整</h2>
         <p>根据身体情况、作息和饮食目标调整每日菜单与注意事项。</p>
       </article>
-    </section>
 
-    <section id="create-agent" class="workspace section-anchor" aria-label="创建 Cursor 云智能体角色">
-      <form class="panel form-panel" @submit.prevent="handleSubmit">
+      <form
+        v-else-if="activeTarget === 'create-agent'"
+        id="create-agent"
+        class="panel form-panel"
+        @submit.prevent="handleSubmit"
+      >
         <div>
           <p class="section-kicker">创建入口</p>
           <h2>创建 daily-meal 云智能体角色</h2>
@@ -239,7 +223,7 @@ async function handleSubmit() {
         </div>
       </form>
 
-      <aside id="payload-preview" class="panel preview-panel section-anchor">
+      <aside v-else id="payload-preview" class="panel preview-panel">
         <p class="section-kicker">请求预览</p>
         <h2>Cloud Agents Payload</h2>
         <p class="muted">
