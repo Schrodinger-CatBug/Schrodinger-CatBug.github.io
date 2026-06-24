@@ -30,7 +30,7 @@ function scrollToSection(target, shouldUpdateHash = true) {
     return;
   }
 
-  const navOffset = 190;
+  const navOffset = 280;
   const top = Math.max(element.getBoundingClientRect().top + window.scrollY - navOffset, 0);
 
   window.scrollTo({
