@@ -50,7 +50,12 @@ onMounted(() => {
   const target = window.location.hash.slice(1);
 
   if (target) {
-    nextTick(() => scrollToSection(target, false));
+    nextTick(() => {
+      requestAnimationFrame(() => {
+        scrollToSection(target, false);
+      });
+      setTimeout(() => scrollToSection(target, false), 150);
+    });
   }
 });
 
