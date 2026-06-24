@@ -3,9 +3,9 @@ import { computed, onMounted, reactive, ref } from "vue";
 import { buildDailyMealAgentPayload, createCursorAgent } from "./cursorAgent";
 
 const form = reactive({
-  heightCm: 170,
-  weightKg: 65,
-  lifestylePrompt: "工作日 23:30 入睡，7:30 起床，久坐较多，希望午餐清淡、晚餐低油低盐。",
+  heightCm: 183,
+  weightKg: 70,
+  lifestylePrompt: "程序员，日常久坐较多，运动量较少。家里已有意大利面和基础调味料，希望生成高蛋白、足量蔬菜、低油盐的饮食建议。",
   apiKey: "",
   proxyUrl: "",
   repository: "https://github.com/Schrodinger-CatBug/daily-meal",
@@ -130,17 +130,90 @@ async function handleSubmit() {
     </section>
 
     <section class="tab-panel" aria-live="polite">
-      <article v-if="activeTarget === 'shopping'" id="shopping" class="feature-card">
+      <article v-if="activeTarget === 'shopping'" id="shopping" class="feature-card detail-card">
         <h2>今日采购提醒</h2>
-        <p>根据菜谱和库存判断是否需要采购，并输出食材名称、数量和用途。</p>
+        <p class="muted">今日建议做：番茄鸡胸肉意大利面 + 清炒西兰花。</p>
+
+        <div class="detail-grid">
+          <section>
+            <h3>已有食材</h3>
+            <ul>
+              <li>意大利面</li>
+              <li>基础调味料：盐、黑胡椒、橄榄油或常用食用油、蒜、酱油等</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>今日建议采购</h3>
+            <ul>
+              <li>鸡胸肉 200 g</li>
+              <li>番茄 2 个</li>
+              <li>西兰花 1 颗</li>
+              <li>洋葱 1 个</li>
+              <li>蘑菇 150 g</li>
+            </ul>
+          </section>
+        </div>
+
+        <section class="recipe-steps">
+          <h3>做法建议</h3>
+          <ol>
+            <li>意大利面煮到 8-9 分熟，保留少量煮面水。</li>
+            <li>鸡胸肉切丁，用少量盐和黑胡椒腌 10 分钟。</li>
+            <li>番茄和洋葱炒出汁，加入鸡胸肉和蘑菇，少油烹调。</li>
+            <li>放入意大利面，加少量煮面水收汁。</li>
+            <li>西兰花焯水后清炒，或直接拌入面中。</li>
+          </ol>
+        </section>
       </article>
-      <article v-else-if="activeTarget === 'inventory'" id="inventory" class="feature-card">
+      <article v-else-if="activeTarget === 'inventory'" id="inventory" class="feature-card detail-card">
         <h2>食材库存管理</h2>
-        <p>记录剩余食材数量、可用状态和存放位置，减少重复购买和浪费。</p>
+        <p class="muted">当前库存以意大利面和基础调味料为主，肉类和蔬菜需要采购补齐。</p>
+
+        <div class="detail-grid">
+          <section>
+            <h3>当前已有</h3>
+            <ul>
+              <li>意大利面：建议放在干燥橱柜或储物柜，密封保存。</li>
+              <li>基础调味料：建议集中放在厨房调味区，避免重复购买。</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>采购后存放</h3>
+            <ul>
+              <li>鸡胸肉：1-2 天内吃放冷藏；超过 2 天分装冷冻。</li>
+              <li>西兰花、青菜、菠菜：放冰箱蔬菜保鲜区，优先 2-3 天内吃完。</li>
+              <li>蘑菇：冷藏保存，保持干燥，建议 2 天内使用。</li>
+              <li>番茄、洋葱：短期可室温阴凉处保存，切开后冷藏。</li>
+            </ul>
+          </section>
+        </div>
       </article>
-      <article v-else-if="activeTarget === 'health'" id="health" class="feature-card">
+      <article v-else-if="activeTarget === 'health'" id="health" class="feature-card detail-card">
         <h2>健康食谱调整</h2>
-        <p>根据身体情况、作息和饮食目标调整每日菜单与注意事项。</p>
+        <p class="muted">基于 183 cm、70 kg、BMI 20.9、程序员久坐且运动量较少的情况，当前重点是保持体重、提高蛋白质量、补足蔬菜和膳食纤维。</p>
+
+        <div class="detail-grid">
+          <section>
+            <h3>饮食重点</h3>
+            <ul>
+              <li>每餐搭配蛋白质：鸡胸肉、鱼虾、鸡蛋、豆腐、无糖酸奶。</li>
+              <li>每天至少一次深色蔬菜：西兰花、菠菜、青菜等。</li>
+              <li>意大利面每周安排 2-3 次，每次搭配足量蛋白和蔬菜。</li>
+              <li>晚餐减少高油、高盐和大份主食，避免夜间消化负担过重。</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>久坐调整</h3>
+            <ul>
+              <li>每工作 60-90 分钟起身活动 3-5 分钟。</li>
+              <li>晚饭后散步 15-30 分钟，更适合当前低运动量状态。</li>
+              <li>下午加餐优先选择无糖酸奶、水煮蛋、低糖水果或一小把坚果。</li>
+            </ul>
+          </section>
+        </div>
       </article>
 
       <form
