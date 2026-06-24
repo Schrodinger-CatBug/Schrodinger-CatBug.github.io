@@ -13,7 +13,7 @@
 }
 
 html {
-  scroll-padding-top: 280px;
+  scroll-padding-top: 420px;
 }
 
 * {
@@ -79,7 +79,7 @@ main {
 }
 
 .section-anchor {
-  scroll-margin-top: 280px;
+  scroll-margin-top: 420px;
 }
 
 .hero {
