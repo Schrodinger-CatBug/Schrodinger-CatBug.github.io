@@ -34,24 +34,26 @@ main {
   isolation: isolate;
   width: min(1180px, calc(100% - 32px));
   margin: 0 auto;
-  padding: 24px 0 56px;
+  padding: 96px 0 56px;
 }
 
 .site-nav {
-  position: sticky;
-  z-index: 1000;
-  top: 0;
+  position: fixed;
+  z-index: 2147483647;
+  top: 12px;
+  left: 50%;
   display: flex;
   gap: 10px;
   align-items: center;
   overflow-x: auto;
-  margin-bottom: 24px;
+  width: min(1180px, calc(100% - 32px));
+  margin: 0;
   padding: 12px;
   border: 1px solid rgba(220, 230, 221, 0.9);
   border-radius: 999px;
   background: #ffffff;
   box-shadow: 0 14px 38px rgba(47, 125, 79, 0.12);
-  transform: translateZ(0);
+  transform: translateX(-50%);
 }
 
 .site-nav button {
