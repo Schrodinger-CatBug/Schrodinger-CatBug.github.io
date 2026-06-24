@@ -48,9 +48,8 @@ main {
   padding: 12px;
   border: 1px solid rgba(220, 230, 221, 0.9);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.88);
+  background: #ffffff;
   box-shadow: 0 14px 38px rgba(47, 125, 79, 0.12);
-  backdrop-filter: blur(16px);
 }
 
 .site-nav button {
