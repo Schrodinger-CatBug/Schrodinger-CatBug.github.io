@@ -14,6 +14,7 @@ const form = reactive({
 const isSubmitting = ref(false);
 const result = ref(null);
 const errorMessage = ref("");
+const activeTarget = ref("");
 
 const navItems = [
   { target: "shopping", label: "今日采购提醒" },
@@ -42,6 +43,7 @@ function scrollToSection(target, shouldUpdateHash = true) {
   }
 
   window.scrollTo(0, Math.max(documentTop - navOffset, 0));
+  activeTarget.value = target;
 
   if (shouldUpdateHash) {
     window.history.pushState(null, "", `#${target}`);
@@ -52,6 +54,7 @@ onMounted(() => {
   const target = window.location.hash.slice(1);
 
   if (target) {
+    activeTarget.value = target;
     nextTick(() => {
       requestAnimationFrame(() => {
         scrollToSection(target, false);
@@ -129,14 +132,15 @@ async function handleSubmit() {
 <template>
   <main>
     <nav class="site-nav" aria-label="页面子项导航">
-      <a
+      <button
         v-for="item in navItems"
         :key="item.target"
-        :href="`#${item.target}`"
-        @click.prevent="scrollToSection(item.target)"
+        type="button"
+        :class="{ active: activeTarget === item.target }"
+        @click="scrollToSection(item.target)"
       >
         {{ item.label }}
-      </a>
+      </button>
     </nav>
 
     <section class="hero" aria-labelledby="page-title">
