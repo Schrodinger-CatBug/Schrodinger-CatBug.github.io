@@ -31,12 +31,15 @@ function scrollToSection(target, shouldUpdateHash = true) {
   }
 
   const navOffset = 280;
-  const top = Math.max(element.getBoundingClientRect().top + window.scrollY - navOffset, 0);
+  let documentTop = 0;
+  let currentElement = element;
 
-  window.scrollTo({
-    top,
-    behavior: "smooth",
-  });
+  while (currentElement) {
+    documentTop += currentElement.offsetTop;
+    currentElement = currentElement.offsetParent;
+  }
+
+  window.scrollTo(0, Math.max(documentTop - navOffset, 0));
 
   if (shouldUpdateHash) {
     window.history.pushState(null, "", `#${target}`);
