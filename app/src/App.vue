@@ -120,8 +120,8 @@ async function handleSubmit() {
       </article>
     </section>
 
-    <section class="workspace" aria-label="创建 Cursor 云智能体角色">
-      <form id="create-agent" class="panel form-panel section-anchor" @submit.prevent="handleSubmit">
+    <section id="create-agent" class="workspace section-anchor" aria-label="创建 Cursor 云智能体角色">
+      <form class="panel form-panel" @submit.prevent="handleSubmit">
         <div>
           <p class="section-kicker">创建入口</p>
           <h2>创建 daily-meal 云智能体角色</h2>
