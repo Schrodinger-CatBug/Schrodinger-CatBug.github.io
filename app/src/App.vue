@@ -107,19 +107,19 @@ async function handleSubmit() {
 </script>
 
 <template>
-  <main>
-    <nav class="site-nav" aria-label="页面子项导航">
-      <button
-        v-for="item in navItems"
-        :key="item.target"
-        type="button"
-        :class="{ active: activeTarget === item.target }"
-        @click="showSection(item.target)"
-      >
-        {{ item.label }}
-      </button>
-    </nav>
+  <nav class="site-nav" aria-label="页面子项导航">
+    <button
+      v-for="item in navItems"
+      :key="item.target"
+      type="button"
+      :class="{ active: activeTarget === item.target }"
+      @click="showSection(item.target)"
+    >
+      {{ item.label }}
+    </button>
+  </nav>
 
+  <main>
     <section class="hero" aria-labelledby="page-title">
       <p class="eyebrow">每日菜谱 · Vue 3 · Cursor 云智能体</p>
       <h1 id="page-title">让 daily-meal 自动创建你的健康菜谱角色</h1>

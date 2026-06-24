@@ -31,7 +31,6 @@ textarea {
 }
 
 main {
-  isolation: isolate;
   width: min(1180px, calc(100% - 32px));
   margin: 0 auto;
   padding: 96px 0 56px;
