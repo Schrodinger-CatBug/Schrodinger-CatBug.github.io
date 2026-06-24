@@ -15,6 +15,14 @@ const isSubmitting = ref(false);
 const result = ref(null);
 const errorMessage = ref("");
 
+const navItems = [
+  { href: "#shopping", label: "今日采购提醒" },
+  { href: "#inventory", label: "食材库存管理" },
+  { href: "#health", label: "健康食谱调整" },
+  { href: "#create-agent", label: "创建入口" },
+  { href: "#payload-preview", label: "请求预览" },
+];
+
 const bmi = computed(() => {
   const height = Number(form.heightCm);
   const weight = Number(form.weightKg);
@@ -82,6 +90,12 @@ async function handleSubmit() {
 
 <template>
   <main>
+    <nav class="site-nav" aria-label="页面子项导航">
+      <a v-for="item in navItems" :key="item.href" :href="item.href">
+        {{ item.label }}
+      </a>
+    </nav>
+
     <section class="hero" aria-labelledby="page-title">
       <p class="eyebrow">每日菜谱 · Vue 3 · Cursor 云智能体</p>
       <h1 id="page-title">让 daily-meal 自动创建你的健康菜谱角色</h1>
@@ -92,22 +106,22 @@ async function handleSubmit() {
     </section>
 
     <section class="feature-grid" aria-label="每日菜谱能力">
-      <article class="feature-card">
+      <article id="shopping" class="feature-card section-anchor">
         <h2>今日采购提醒</h2>
         <p>根据菜谱和库存判断是否需要采购，并输出食材名称、数量和用途。</p>
       </article>
-      <article class="feature-card">
+      <article id="inventory" class="feature-card section-anchor">
         <h2>食材库存管理</h2>
         <p>记录剩余食材数量、可用状态和存放位置，减少重复购买和浪费。</p>
       </article>
-      <article class="feature-card">
+      <article id="health" class="feature-card section-anchor">
         <h2>健康食谱调整</h2>
         <p>根据身体情况、作息和饮食目标调整每日菜单与注意事项。</p>
       </article>
     </section>
 
     <section class="workspace" aria-label="创建 Cursor 云智能体角色">
-      <form class="panel form-panel" @submit.prevent="handleSubmit">
+      <form id="create-agent" class="panel form-panel section-anchor" @submit.prevent="handleSubmit">
         <div>
           <p class="section-kicker">创建入口</p>
           <h2>创建 daily-meal 云智能体角色</h2>
@@ -182,7 +196,7 @@ async function handleSubmit() {
         </div>
       </form>
 
-      <aside class="panel preview-panel">
+      <aside id="payload-preview" class="panel preview-panel section-anchor">
         <p class="section-kicker">请求预览</p>
         <h2>Cloud Agents Payload</h2>
         <p class="muted">
